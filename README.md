@@ -1,106 +1,90 @@
-# End to End Airbnb-Price-Prediction 
+@"
+# End-to-End Airbnb Price Prediction
 
-## Introduction
-In today's fast-paced world, the way we travel and seek accommodations has undergone a remarkable transformation, thanks to platforms like Airbnb. This dynamic marketplace has empowered property owners and travellers, offering a diverse range of lodging options. However, one enduring challenge is setting the right price for a listing. Hosts aspire to optimize their earnings while ensuring competitive pricing, while guests seek value for their money. Balancing these interests can be intricate, and that's where the motivation for Airbnb price prediction comes in.
+## What is this project?
+Pricing an Airbnb listing is harder than it looks. Set it too high and guests scroll past. Set it too low and you leave money on the table. This project builds a machine learning model that predicts the right price for an Airbnb listing based on its features — location, property type, room type, amenities, cancellation policy, and more.
 
-## Motivation 
-To harness the power of data science and machine learning to provide more accurate and data-driven pricing strategies for Airbnb hosts and guests. By developing predictive models that factor in myriad variables such as location, property type, and market dynamics, the objective is to help hosts maximize their income and guests find fair deals. In this exploration of Airbnb price prediction, we will delve into methodologies, data sources, and emerging trends, shedding light on how technology is enhancing the overall Airbnb experience for both hosts and travellers.
+The goal is simple: give hosts a data-driven starting point for pricing their listings.
 
+---
 
-# Installation Guide
+## How it works
+1. **Data** — We used a real-world Airbnb dataset with 29 features covering property details, host information, location, and guest reviews
+2. **Cleaning & Transformation** — Handled missing values, encoded categorical variables, and applied log transformation on price to reduce skew
+3. **Model** — Trained a CatBoost Regressor, which handles categorical features natively and performs well on tabular data
+4. **Deployment** — Wrapped the model in a Flask web app where you can input listing details and get a predicted price instantly
+5. **CI/CD** — Dockerized the app and set up GitHub Actions for automated deployment
 
-This guide provides step-by-step instructions on how to install and set up the Airbnb Price Prediction project. You can choose to install it either directly from GitHub or using a Docker container from DockerHub.
+---
 
-## Prerequisites
+## Model Performance
 
-Before you begin, make sure you have the following prerequisites installed on your system:
+| Metric | Score |
+|--------|-------|
+| R² Score | 0.7092 |
+| RMSE | 0.3865 |
+| MAE | 0.2805 |
 
- - Numpy
- - Pandas
- - Seaborn
- - Matplotlib
- - Scikit-learn
- - xgboost
- - Flask
- - Pillow
- - Catboost
- - DVC
+> Prices are predicted in log scale (log_price). An R² of 0.71 means the model explains **71% of the variance** in Airbnb listing prices — strong performance for a real-world pricing dataset with high natural variability.
 
-## Installation Steps
+---
 
-### Option 1: Installation from GitHub
+## Key Insights
 
-Follow these steps to install and set up the project directly from the GitHub repository:
+- **Location is the strongest predictor** — city and neighbourhood had the highest impact on price
+- **Room type matters more than property type** — an entire home commands significantly higher prices than a private or shared room regardless of property category
+- **Cancellation policy signals quality** — listings with strict cancellation policies tend to be priced higher, likely reflecting higher-end properties
+- **Host trust signals add value** — verified identity and profile pictures correlated with higher listing prices
+- **Accommodates and bedrooms** — unsurprisingly, larger listings that sleep more guests price higher, but the relationship is non-linear
 
-1. **Clone the Repository**
-   - Open your terminal or command prompt.
-   - Navigate to the directory where you want to install the project.
-   - Run the following command to clone the GitHub repository:
-     ```
-     git clone https://github.com/Thorvi01/End-to-end-Airbnb-price-prediction.git
-     ```
+---
 
-2. **Create a Virtual Environment** (Optional but recommended)
-   - It's a good practice to create a virtual environment to manage project dependencies. Run the following command:
-     ```
-     conda create -p <Environment_Name> python==<python version> -y
-     ```
+## Impact
 
-3. **Activate the Virtual Environment** (Optional)
-   - Activate the virtual environment based on your operating system:
-       ```
-       conda activate <Environment_Name>/
-       ```
+- Helps **hosts price competitively** without undervaluing their listing
+- Helps **guests identify fair deals** vs overpriced listings in a given area
+- Demonstrates a full **production-ready ML pipeline** from raw data to deployed web app
+- The model generalizes well across 6 major US cities present in the dataset
 
-4. **Install Dependencies**
-   - Navigate to the project directory:
-     ```
-     cd [project_directory]
-     ```
-   - Run the following command to install project dependencies:
-     ```
-     pip install -r requirements.txt
-     ```
+---
 
-5. **Run the Project**
-   - Start the project by running the appropriate command.
-     ```
-     python app.py
-     ```
+## Tech Stack
 
-6. **Access the Project**
-   - Open a web browser or the appropriate client to access the project.
-  
-<br><br>
-### Option 2: Installation from DockerHub
+| Layer | Tools |
+|-------|-------|
+| Data Processing | Pandas, NumPy |
+| Modeling | CatBoost, Scikit-learn |
+| Web App | Flask |
+| Frontend | HTML, CSS |
+| Containerization | Docker |
+| CI/CD | GitHub Actions |
+| Experiment Tracking | DVC |
 
-If you prefer to use Docker, you can install and run the project using a Docker container from DockerHub:
+---
 
-1. **Pull the Docker Image**
-   - Open your terminal or command prompt.
-   - Run the following command to pull the Docker image from DockerHub:
-     ```
-     docker pull thorvi01/airbnb-app
-     ```
+## Installation
 
-2. **Run the Docker Container**
-   - Start the Docker container by running the following command, mapping any necessary ports:
-     ```
-     docker run -p 5000:5000 Thorvi01/airbnb-app
-     ```
+### Option 1: Run from GitHub
 
-3. **Access the Project**
-   - Open a web browser or the appropriate client to access the project.
+```bash
+git clone https://github.com/Thorvi01/End-to-end-Airbnb-price-prediction.git
+cd End-to-end-Airbnb-price-prediction
+pip install -r requirements.txt
+python app.py
+```
 
-## Troubleshooting
+### Option 2: Run with Docker
 
-- If you encounter any issues during the installation process, Contact me at ```dishaabwork@gmail.com```
+```bash
+docker pull thorvi01/airbnb-app
+docker run -p 5000:5000 thorvi01/airbnb-app
+```
 
+---
 
-# Contributing
+## Contributing
+Feel free to open an issue or submit a pull request if you have ideas to improve the model or add new features.
 
-We welcome contributions from the community! If you have any ideas or suggestions for improving the project, please feel free to create an issue or submit a pull request.
-
-# Acknowledgements
-
-This project was inspired by the Kaggle dataset on AirBNB Price Prediction and the corresponding competition. We also acknowledge the open-source Python libraries used in this project and their contributors.
+## Acknowledgements
+Dataset sourced from Kaggle's Airbnb Price Prediction competition. Thanks to the open-source community behind CatBoost, Scikit-learn, and Flask.
+"@ | Set-Content README.md
